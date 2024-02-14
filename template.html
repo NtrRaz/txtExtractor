@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Devanagari" rel="stylesheet"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>{{ title }}</title>
+
+        <style>
+            html {
+                font-family: 'Noto Sans Devanagari';
+            }
+            .note, .video{
+                text-align: center;
+                font-size: 20px;
+            }
+            .topic_button{
+              background-color: #777;
+              color: white;
+              cursor: pointer;
+              padding: 18px;
+              width: 100%;
+              border: none;
+              text-align: center;
+              outline: none;
+              font-size: 35px;
+            }
+
+            .active, .topic_button:hover {
+              background-color: #555;
+            }
+
+            @media print {
+                .topic_content {
+                    display: block;
+                }
+            }
+
+            @media not print {
+                .topic_content {
+                    display: none;
+                }
+            }
+
+            p{page-break-inside: avoid ;}
+
+            .topic_content {
+              padding: 0 18px;
+              overflow: hidden;
+              text-align:center;
+              background-color: #f1f1f1;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="batch" style="text-align:center;font-size:50px;color:Red">
+            {{ batch }}
+        </h1>
+        <p id="info" style="text-align:center;font-size:25px;color:Blue">
+        Links grabber made by <a href="https://t.me/arrowazaad" rel="noopener noreferrer" target="_blank">ARROW AZAAD</a>
+        <br>
+        <br>
+        </p>
+        {% if type == "notes" %}
+            <div id="notes" class="files">
+                {% for note in notes %}
+                    <p class="note">
+                    <span class="note_name">{{note}}</span>
+                    <br>
+                    <a href="{{ notes[note] }}" rel="noopener noreferrer" target="_blank">{{ notes[note] }}</a>
+                    <br>
+                    <br>
+                    </p>
+                {% endfor %}
+            </div>
+        {% elif type == "videos" %}
+            <div id="videos" class="files">
+                {% for topic in topics %}
+                    <div class="topic">
+                        <button type="button" class="topic_button" >
+                            <b>Topic :-</b> <span class="topic_name">{{ topic }}</span>
+                        </button>
+                        <div class="topic_content">
+                        {% set videos = topics[topic] %}
+                        {% for video in videos %}
+                            <p class="video">
+                            <span class="video_name">{{ video }}</span>
+                            <br>
+                            <a href="{{ videos[video] }}" rel="noopener noreferrer" target="_blank">{{ videos[video] }}</a>
+                            </p>
+                        {% endfor %}
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    <script>
+    var coll = document.getElementsByClassName("topic_button");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+    </script>
+    </body>
+</html>
+
